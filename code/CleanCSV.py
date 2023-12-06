@@ -27,7 +27,7 @@ print("\nColumns after removing:")
 print(data.columns.tolist())
 
 # Write the modified DataFrame to a new CSV file
-data.to_csv('Clean_UCD.csv', index=False)  # Set index=False to avoid writing row indices
+# data.to_csv('Clean_UCD.csv', index=False)  # Set index=False to avoid writing row indices
 
 #%%     # find max / min 
 
@@ -58,15 +58,15 @@ x_scaling_factor = (x_target_max - x_target_min) / (x_max - x_min)
 y_scaling_factor = (y_target_max - y_target_min) / (y_max - y_min)
 
 # Apply proportional scaling to the X and Y coordinates
-update['Scaled_X'] = (update['X'] - x_min) * x_scaling_factor + x_target_min
-update['Scaled_Y'] = (update['Y'] - y_min) * y_scaling_factor + y_target_min
+update['X'] = ((update['X'] - x_min) * x_scaling_factor + x_target_min).round(2)
+update['Y'] = ((update['Y'] - y_min) * y_scaling_factor + y_target_min).round(2)
 
-update.to_csv('norm_UCD.csv', index=False)  # Set index=False to avoid writing row indices
+update.to_csv('normUCD.csv', index=False)  # Set index=False to avoid writing row indices
 
 #%%       # find velocities 
 
-updatedX = update['Scaled_X'][ :: 10].to_numpy()
-updatedY =  update['Scaled_Y'][ :: 10].to_numpy()
+updatedX = update['X'][ :: 10].to_numpy()
+updatedY =  update['Y'][ :: 10].to_numpy()
 
 velocity = [0]
 
@@ -87,4 +87,5 @@ for i in range(1, len(updatedX)):
 
 # plots a scatter plot of X,Y points lighter points are faster velocity 
 plt.scatter(updatedX, updatedY, c=velocity)
+
 # %%
